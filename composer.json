@@ -27,7 +27,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@github.com::plazmdk/FormExtensions.git"
+            "url":  "git@github.com:plazmdk/FormExtensions.git"
         }
     ]
 }
