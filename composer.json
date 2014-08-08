@@ -22,5 +22,6 @@
         "jms/security-extra-bundle": "dev-master",
         "symfony-cmf/routing-bundle": "*",
         "stof/doctrine-extensions-bundle": "*",
+	"TJB/FormExtensions": "*"
     }
 }
