@@ -1,0 +1,45 @@
+services:
+    tsCMS.routeService:
+        class: tsCMS\SystemBundle\Services\RouteService
+        arguments: [ @doctrine.orm.entity_manager, @event_dispatcher ]
+    tsCMS.configService:
+        class: tsCMS\SystemBundle\Services\ConfigService
+        arguments: [ @doctrine.orm.entity_manager ]
+    tsCMS.routeProviderService:
+        class: tsCMS\SystemBundle\Services\RouteProviderService
+        arguments: [ @tsCMS.routeService ]
+    tsCMS.siteStructureService:
+        class: tsCMS\SystemBundle\Services\SiteStructureService
+        arguments: [ @event_dispatcher ]
+    tsCMS.twig.siteStructureExtension:
+        class: tsCMS\SystemBundle\Twig\SiteStructureExtension
+        arguments: [ @tsCMS.siteStructureService, @request_stack, %tscms.adminprefix% ]
+        tags:
+            - { name: twig.extension }
+    tsCMS.form.type.editor:
+        class: tsCMS\SystemBundle\Form\Type\EditorType
+        tags:
+            - { name: form.type, alias: editor }
+    tsCMS.form.type.route:
+        class: tsCMS\SystemBundle\Form\Type\RouteType
+        tags:
+            - { name: form.type, alias: route }
+    tsCMS.form.type.addon:
+        class: tsCMS\SystemBundle\Form\Type\AddonType
+        tags:
+            - { name: form.type, alias: addon }
+    tsCMS.validator.constaints.path:
+        class: tsCMS\SystemBundle\Validator\Constraints\PathValidator
+        arguments: [ @tsCMS.routeService ]
+        tags:
+            - { name: validator.constraint_validator, alias: path.validator }
+    tsCMS.form.type.extended_entity:
+        class: tsCMS\SystemBundle\Form\Type\ExtendedEntityType
+        arguments: [@property_accessor]
+        tags:
+            - { name: form.type, alias: extended_entity }
+    tsCMS_system.pathEnabledEntityLoadListener:
+        class: tsCMS\SystemBundle\EventListener\PathEnabledEntityLoadListener
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: postLoad }

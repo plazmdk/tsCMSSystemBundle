@@ -1,0 +1,4 @@
+validation:
+  path:
+    existing: 'Stien %path% er allerede i brug - den gamle %oldpath% er stadig aktiv'
+    new: 'Stien %path% er allerede i brug'

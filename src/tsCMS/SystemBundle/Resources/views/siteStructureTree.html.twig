@@ -1,0 +1,22 @@
+{% if element.title is not null %}
+    <li data="id: {{ element.id }}{% if element.contextmenu|length > 0%},contextmenu: [{% for idx,action in element.contextmenu %}{% if idx > 0 %},{% endif %}{title: '{{ action.title }}',action: '{{ action.action }}'}{% endfor %}]{% endif %}{% if element.sortCallback %},sortcallback:'{{ element.sortCallback }}'{% endif %}">
+        {% if element.action %}
+            <a href="{{ element.action.action }}">{{ element.title }}</a>
+        {% else %}
+            {{ element.title }}
+        {% endif %}
+        {% if element.subtree %}
+            <ul>
+                {% for subelement in element.subtree %}
+                    {% include "tsCMSSystemBundle::siteStructureTree.html.twig" with { 'element': subelement } %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% else %}
+    {% if element.subtree %}
+        {% for subelement in element.subtree %}
+            {% include "tsCMSSystemBundle::siteStructureTree.html.twig" with { 'element': subelement } %}
+        {% endfor %}
+    {% endif %}
+{% endif %}
