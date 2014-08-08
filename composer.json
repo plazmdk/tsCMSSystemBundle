@@ -23,5 +23,11 @@
         "symfony-cmf/routing-bundle": "*",
         "stof/doctrine-extensions-bundle": "*",
 	"TJB/FormExtensions": "*"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com::plazmdk/FormExtensions.git"
+        }
+    ]
 }
