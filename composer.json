@@ -1,5 +1,5 @@
 {
-    "name": "tsCMS/SystemBundle",
+    "name": "tscms/system",
     "autoload": {
         "psr-0" : {
             "tsCMS\\SystemBundle" : "src"
@@ -22,12 +22,12 @@
         "jms/security-extra-bundle": "dev-master",
         "symfony-cmf/routing-bundle": "*",
         "stof/doctrine-extensions-bundle": "*",
-	"TJB/FormExtensions": "*"
+	"tjb/formextensions": "*"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@github.com:plazmdk/FormExtensions.git"
+            "url":  "https://github.com/plazmdk/FormExtensions"
         }
     ]
 }
