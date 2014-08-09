@@ -22,7 +22,7 @@
         "jms/security-extra-bundle": "dev-master",
         "symfony-cmf/routing-bundle": "*",
         "stof/doctrine-extensions-bundle": "*",
-	"tjb/formextensions": "*"
+	"tjb/formextensions": "dev-master"
     },
     "repositories": [
         {
