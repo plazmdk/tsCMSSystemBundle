@@ -5,6 +5,7 @@
             "tsCMS\\SystemBundle" : ""
         }
     },
+    "target-dir": "tsCMS/SystemBundle",
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": ">=2.4",
