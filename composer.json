@@ -2,7 +2,7 @@
     "name": "tscms/system",
     "autoload": {
         "psr-0" : {
-            "tsCMS\\SystemBundle" : "src"
+            "tsCMS\\SystemBundle" : ""
         }
     },
     "require": {
