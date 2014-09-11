@@ -192,91 +192,61 @@ $(function() {
         radioClass: 'iradio_minimal'
     });
 
-    var contextMenus = 0;
-    function attachContext(span,contextMenuActions) {
-        var item = $(span);
-        var id = "contextMenu"+contextMenus;
+    var originalParent = null;
+    $(".tree").each(function() {
 
-        var contextMenu = $("<div/>").attr("id", id);
-        var optionList = $("<ul/>").addClass("dropdown-menu");
-
-        for (var i in contextMenuActions) {
-            var action = contextMenuActions[i];
-
-            var option = $("<li/>").append($("<a/>").attr("href", action.action).text(action.title));
-            optionList.append(option);
-        }
-
-        contextMenu.append(optionList);
-        $("body").append(contextMenu);
-
-        item.contextmenu({
-            target: '#'+id,
-            onItem: function(context,e) {
-                window.location = $(e.target).attr("href");
-            }
-        });
-        contextMenus++;
-    }
-
-    $(".tree").dynatree({
-        persist: true,
-        unselectable: true,
-        onCreate: function(node, span){
-            if (node.data.contextmenu) {
-                attachContext(span,node.data.contextmenu);
-            }
-        },
-        onActivate: function(node) {
-            node.deactivate();
-            if( node.data.href ){
-                window.location.href = node.data.href;
-            }
-        },
-
-        dnd: {
-            preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
-            onDragStart: function(node) {
-                return true;
-            },
-            onDragEnter: function(node, sourceNode) {
-                // Prevent dropping a parent below another parent (only sort
-                // nodes under the same parent)
-                if(node.parent !== sourceNode.parent){
-                    return false;
+        var tree = $(this);
+        tree.jstree({
+            plugins: ['contextmenu', 'state', 'dnd'],
+            core: {
+                check_callback: function(operation, node, node_parent, node_position, more) {
+                    return node.parent == node_parent.id;
                 }
-                // Don't allow dropping *over* a node (would create a child)
-                return ["before", "after"];
             },
-            onDrop: function(node, sourceNode, hitMode, ui, draggable) {
-                /** This function MUST be defined to enable dropping of items on
-                 *  the tree.
-                 */
-                sourceNode.move(node, hitMode);
-
-                var element = node.parent;
-                var callback = null;
-                while (element) {
-                    if (element.data.sortcallback) {
-                        callback = element.data.sortcallback;
-                        break;
+            contextmenu: {
+                select_node: false,
+                items: function(object) {
+                    if (object.li_attr && object.li_attr.contextmenu) {
+                        var options = JSON.parse(object.li_attr.contextmenu);
+                        var result = {};
+                        $.each(options,function(i){
+                            var option = this;
+                            result[i] = {
+                                label: option.title,
+                                action: function() {
+                                    window.location = option.action;
+                                }
+                            }
+                        });
+                        return result;
                     }
-                    element = element.parent;
+                    return null;
                 }
-                if (!callback) {
-                    callback = $(node.tree.divTree).data("sortcallback");
+            },
+            state: {
+                key: tree.closest("section").attr("id"),
+                filter: function(state) {
+                    state.core.selected = [];
+                    return state;
                 }
-                if (callback) {
-                    var data = {
-                        source: sourceNode.data.id,
-                        action: hitMode,
-                        target: node.data.id
-                    };
-                    $.post(callback,data);
-                }
+            },
+            dnd: {
+                copy: false
             }
-        },
-        debugLevel: 0
+        }).on("select_node.jstree", function(e, data) {
+            if (data.node && data.node.a_attr && data.node.a_attr.href) {
+                location.href = data.node.a_attr.href
+            }
+        }).on("move_node.jstree", function(e, object) {
+            var position = object.position;
+            var id = object.node.li_attr.elementid;
+            var sortcallback = $("#"+object.node.id).closest("li[sortcallback]").attr("sortcallback");
+
+            $.post(sortcallback, {
+                id: id,
+                position: position
+            });
+        })
     });
     $("textarea.editor").each(function() {
         var editor = $(this);

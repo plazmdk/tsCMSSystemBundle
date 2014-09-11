@@ -32,13 +32,16 @@ class ExtendedEntityType extends AbstractType
     {
         parent::finishView($view, $form, $options);
 
-        foreach ($view->vars['choices'] as $choice) {
+        foreach ($view->vars['choices'] as $value => $choice) {
             $additionalAttributes = array();
             foreach ($options['option_attributes'] as $attributeName => $choicePath) {
                 $additionalAttributes[$attributeName] = $this->propertyAccessor->getValue($choice->data, $choicePath);
             }
 
             $choice->attr = array_replace(isset($choice->attr) ? $choice->attr : array(), $additionalAttributes);
+            if (isset($view->children[$value])) {
+                $view->children[$value]->vars['attr'] = array_replace(isset($view->children[$value]->vars['attr']) ? $view->children[$value]->vars['attr'] : array(), $additionalAttributes);
+            }
         }
     }
 

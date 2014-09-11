@@ -10,7 +10,12 @@ function form(forms) {
 function enableFormCollection($collectionHolder) {
     var $addCreateNew = $('<input type="button" value="Tilføj"/>');
 
-    $collectionHolder.children().each(function(){
+    var children = $collectionHolder.children();
+    if ($collectionHolder.is("table")) {
+        children = children.filter("tbody");
+    }
+
+    children.each(function(){
         addFormCollectionDeleteLink($(this));
     });
 
