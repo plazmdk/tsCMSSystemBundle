@@ -456,6 +456,9 @@ textarea.editor,
     float: left;
     cursor: default;
 }
+.box .box-header .box-tools {
+    padding: 5px 10px 5px 5px;
+}
 .box .box-body {
     padding: 10px;
 }
