@@ -1,10 +1,14 @@
 {% extends 'form_div_layout.html.twig' %}
 
 {% block widget_attributes %}
-    {% if attr.class is defined %}
-        {% set class = attr.class ~ ' form-control' %}
+    {% if attrReady is defined %}
+        {% set class = attrReady %}
     {% else %}
-        {% set class = 'form-control' %}
+        {% if attr.class is defined %}
+            {% set class = attr.class ~ ' form-control' %}
+        {% else %}
+            {% set class = 'form-control' %}
+        {% endif %}
     {% endif %}
 
     {% set attr = attr|merge({'class' : class}) %}
@@ -18,9 +22,8 @@
         {% set class = '' %}
     {% endif %}
 
-    {% set attr = attr|merge({'class' : class}) %}
-    {% import 'form_div_layout.html.twig' as old %}
-
+    {% set attrReady = class %}
+    {{ block('widget_attributes') }}
 {% endblock widget_attributes_custom_radio %}
 
 {% block choice_widget_expanded %}
