@@ -1,6 +1,6 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% block widget_attributes %}
+{% block widget_attributes_custom %}
     {% if attr.class is defined %}
         {% set class = attr.class ~ ' form-control' %}
     {% else %}
@@ -8,8 +8,8 @@
     {% endif %}
 
     {% set attr = attr|merge({'class' : class}) %}
-    {{ parent () }}
-{% endblock widget_attributes %}
+    {{ block('widget_attributes') }}
+{% endblock widget_attributes_custom %}
 
 {% block choice_widget_expanded %}
     {% spaceless %}
@@ -245,6 +245,6 @@
         {% if attr.multiple == 'multiple' %}
             {% set full_name = full_name ~'[]' %}
         {% endif %}
-        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+        <input type="{{ type }}" {{ block('widget_attributes_custom') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
     {% endspaceless %}
 {% endblock file_widget %}
