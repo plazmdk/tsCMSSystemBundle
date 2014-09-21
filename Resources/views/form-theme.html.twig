@@ -1,6 +1,6 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% block widget_attributes_custom %}
+{% block widget_attributes %}
     {% if attr.class is defined %}
         {% set class = attr.class ~ ' form-control' %}
     {% else %}
@@ -8,8 +8,20 @@
     {% endif %}
 
     {% set attr = attr|merge({'class' : class}) %}
-    {{ block('widget_attributes') }}
-{% endblock widget_attributes_custom %}
+    {{ parent() }}
+{% endblock widget_attributes %}
+
+{% block widget_attributes_custom_radio %}
+    {% if attr.class is defined %}
+        {% set class = attr.class ~ '' %}
+    {% else %}
+        {% set class = '' %}
+    {% endif %}
+
+    {% set attr = attr|merge({'class' : class}) %}
+    {% import 'form_div_layout.html.twig' as old %}
+
+{% endblock widget_attributes_custom_radio %}
 
 {% block choice_widget_expanded %}
     {% spaceless %}
@@ -50,7 +62,7 @@
                 {% set label = name|humanize %}
             {% endif %}
             <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            <input type="checkbox" {{ block('widget_attributes_custom_radio') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
             {% if label is not sameas(false) %}
                 {{ label|trans({}, translation_domain) }}
             {% endif %}
@@ -72,7 +84,7 @@
                 {% set label = name|humanize %}
             {% endif %}
             <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-            <input type="radio" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+            <input type="radio" {{ block('widget_attributes_custom_radio') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
             {% if label is not sameas(false) %}
                 {{ label|trans({}, translation_domain) }}
             {% endif %}
