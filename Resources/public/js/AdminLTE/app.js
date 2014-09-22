@@ -240,7 +240,7 @@ $(function() {
         }).on("move_node.jstree", function(e, object) {
             var position = object.position;
             var id = object.node.li_attr.elementid;
-            var sortcallback = $("#"+object.node.id).closest("li[sortcallback]").attr("sortcallback");
+            var sortcallback = $("#"+object.node.id).closest("[data-sortcallback]").data("sortcallback");
 
             $.post(sortcallback, {
                 id: id,
