@@ -37,6 +37,11 @@ class ExtendedEntityType extends AbstractType
             foreach ($options['option_attributes'] as $attributeName => $choicePath) {
                 $additionalAttributes[$attributeName] = $this->propertyAccessor->getValue($choice->data, $choicePath);
             }
+            if (isset($view->children[$value])) {
+                foreach ($options['option_details'] as $detailName => $choicePath) {
+                    $view->children[$value]->vars[$detailName] = $this->propertyAccessor->getValue($choice->data, $choicePath);
+                }
+            }
 
             $choice->attr = array_replace(isset($choice->attr) ? $choice->attr : array(), $additionalAttributes);
             if (isset($view->children[$value])) {
@@ -55,6 +60,7 @@ class ExtendedEntityType extends AbstractType
         $resolver->setDefaults(
             array(
                 'option_attributes' => array(),
+                'option_details' => array(),
             )
         );
     }
