@@ -49,9 +49,17 @@ class Route {
      * @ORM\Column(type="string")
      */
     protected $title;
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $metatags;
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $metadescription;
 
 
-    function __construct($name, $path, $controller, $parameters, $requirements, $dynamic, $bundle, $title)
+    function __construct($name, $path, $controller, $parameters, $requirements, $dynamic, $bundle, $title, $metatags, $metadescription)
     {
         $this->controller = $controller;
         $this->dynamic = $dynamic;
@@ -61,6 +69,8 @@ class Route {
         $this->requirements = $requirements;
         $this->bundle = $bundle;
         $this->title = $title;
+        $this->metatags = $metatags;
+        $this->metadescription = $metadescription;
     }
 
     /**
@@ -189,6 +199,38 @@ class Route {
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * @param mixed $metadescription
+     */
+    public function setMetadescription($metadescription)
+    {
+        $this->metadescription = $metadescription;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMetadescription()
+    {
+        return $this->metadescription;
+    }
+
+    /**
+     * @param mixed $metatags
+     */
+    public function setMetatags($metatags)
+    {
+        $this->metatags = $metatags;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMetatags()
+    {
+        return $this->metatags;
     }
 
 } 

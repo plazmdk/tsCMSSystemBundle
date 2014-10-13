@@ -33,15 +33,15 @@ class PathValidator extends ConstraintValidator {
     {
 
         if ($object instanceof PathInterface) {
-            $route = $this->routeService->getRouteByDirectMatch($object->getPath());
+            $route = $this->routeService->getRouteByDirectMatch($object->getRouteConfig()->getPath());
 
             if ($route) {
                 $currentRoute = $this->routeService->getRouteByEntity($object);
 
                 if (!$currentRoute) {
-                    $this->context->addViolationAt("path","validation.path.new", array("%path%" => $object->getPath()));
-                } else if ($currentRoute->getPath() != $object->getPath()) {
-                    $this->context->addViolationAt("path","validation.path.existing", array("%path%" => $object->getPath(), "%oldpath%" => $currentRoute->getPath()));
+                    $this->context->addViolationAt("path","validation.path.new", array("%path%" => $object->getRouteConfig()->getPath()));
+                } else if ($currentRoute->getPath() != $object->getRouteConfig()->getPath()) {
+                    $this->context->addViolationAt("path","validation.path.existing", array("%path%" => $object->getRouteConfig()->getPath(), "%oldpath%" => $currentRoute->getPath()));
                 }
             }
         }

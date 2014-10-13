@@ -1,0 +1,7 @@
+routeConfig:
+  path: URL
+  title: SEO Titel
+  metatags: SEO Tags
+  metadescription: SEO Beskrivelse
+
+  close: Luk

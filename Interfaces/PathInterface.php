@@ -9,7 +9,12 @@
 namespace tsCMS\SystemBundle\Interfaces;
 
 
+use tsCMS\SystemBundle\Model\RouteConfig;
+
 interface PathInterface {
-    function getPath();
-    function setPath($path);
+    /**
+     * @return RouteConfig
+     */
+    function getRouteConfig();
+    function setRouteConfig($routeConfig);
 } 

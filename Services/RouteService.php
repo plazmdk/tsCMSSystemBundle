@@ -32,7 +32,7 @@ class RouteService {
 
 
 
-    public function addRoute($name, $title, $path, $controller, $bundle, $parameters = array(), $requirements = array(), $dynamic = false, $override = false) {
+    public function addRoute($name, $title, $path, $controller, $bundle, $parameters = array(), $requirements = array(), $dynamic = false, $override = false, $metatags = null, $metadescription = null) {
         $route = $this->getRouteByName($name);
 
         if ($route) {
@@ -48,7 +48,7 @@ class RouteService {
 
         $em = $this->entityManager;
         if (!$route) {
-            $route = new Route($name, $path, $controller, $parameters, $requirements, $dynamic, $bundle, $title);
+            $route = new Route($name, $path, $controller, $parameters, $requirements, $dynamic, $bundle, $title, $metatags, $metadescription);
             $em->persist($route);
         }
 
@@ -59,6 +59,8 @@ class RouteService {
         $route->setDynamic($dynamic);
         $route->setBundle($bundle);
         $route->setTitle($title);
+        $route->setMetatags($metatags);
+        $route->setMetadescription($metadescription);
 
         $em->flush();
 
