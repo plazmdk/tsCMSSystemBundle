@@ -21,13 +21,16 @@ class RouteType extends AbstractType {
             'attr' => array('class' => 'route'),
         ));
         $builder->add('title', 'text', array(
-            'label' => 'routeConfig.title'
+            'label' => 'routeConfig.title',
+            'required' => false
         ));
         $builder->add('metatags', 'text', array(
-            'label' => 'routeConfig.metatags'
+            'label' => 'routeConfig.metatags',
+            'required' => false
         ));
         $builder->add('metadescription', 'textarea', array(
-            'label' => 'routeConfig.metadescription'
+            'label' => 'routeConfig.metadescription',
+            'required' => false
         ));
     }
 

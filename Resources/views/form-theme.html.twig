@@ -67,7 +67,7 @@
             <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
             <input type="checkbox" {{ block('widget_attributes_custom_radio') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
             {% if label is not sameas(false) %}
-                {{ label|trans({}, translation_domain) }}
+                {{ label|trans({}, translation_domain)|raw }}
             {% endif %}
             </label>
         {% endspaceless %}
