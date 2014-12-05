@@ -16,8 +16,16 @@ $(function() {
 
     $(".spinner").append('<div class="spinner"><div class="dot1"></div><div class="dot2"></div></div>');
 
-    $("a.dialog").click(function() {
+    var modal = null;
+
+    $(document).on("click","a.dialog", function() {
         var link = $(this);
+
+        var parent = $("#"+link.data("targetid"));;
+        if (modal) {
+            parent = modal.data("parent");
+            modal.modal("hide");
+        }
 
         var wrapper = $("<div/>").addClass("modal").addClass("fade").attr("role","dialog");
         var wrapper2 = $("<div/>").addClass("modal-dialog");
@@ -34,9 +42,12 @@ $(function() {
         wrapper.modal();
         wrapper.on("hidden.bs.modal",function() {
             wrapper.remove();
+            modal = null;
         });
 
-        wrapper.data("parent",$("#"+link.data("targetid")));
+        wrapper.data("parent",parent);
+
+        modal = wrapper;
 
         content.load(link.attr("href"));
         return false;

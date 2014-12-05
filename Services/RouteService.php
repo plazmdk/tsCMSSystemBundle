@@ -160,9 +160,9 @@ class RouteService {
     }
 
     /**
-     * @return mixed
+     * @return Route[]
      */
-    public function getRoutes($query = null, $page = 0) {
+    public function getRoutes($query = null, $page = 0, $perPage = 15) {
         $qb = $this->entityManager->createQueryBuilder();
         $qb->select("r");
         $qb->from("tsCMSSystemBundle:Route","r");
@@ -173,19 +173,14 @@ class RouteService {
         }
 
         if ($page !== null) {
-            $qb->setMaxResults(15);
-            $qb->setFirstResult($page * 15);
+            $qb->setMaxResults($perPage);
+            $qb->setFirstResult($page * $perPage);
 
             $paginator = new Paginator($qb);
-            return array(
-                "page" => $page + 1,
-                "pages" => range(1,ceil($paginator->count()/15)),
-                "result" => $paginator->getIterator()
-            );
+
+            return $paginator;
         }
 
-        return array(
-            "result" => $qb->getQuery()->getResult()
-        );
+        return $qb->getQuery()->getResult();
     }
 } 

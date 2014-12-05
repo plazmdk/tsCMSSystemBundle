@@ -2,6 +2,7 @@
 
 namespace tsCMS\SystemBundle\Controller;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -23,8 +24,20 @@ class RouteController extends Controller
         /** @var RouteService $routeService */
         $routeService = $this->get("tsCMS.routeService");
 
-        $search = $routeService->getRoutes($query, $page);
-        return $search;
+        $result = $routeService->getRoutes($query, $page, 15);
+        $pages = null;
+
+        if ($result instanceof Paginator) {
+            $pages =  range(1,ceil($result->count()/15));
+            $result = $result->getIterator();
+        }
+
+        return array(
+            "result" => $result,
+            "query" => $query,
+            "page" => $page,
+            "pages" => $pages
+        );
     }
 
     /**
@@ -35,7 +48,7 @@ class RouteController extends Controller
         /** @var RouteService $routeService */
         $routeService = $this->get("tsCMS.routeService");
 
-        $search = $routeService->getRoutes("", null);
+        $searchResult = $routeService->getRoutes("", null);
         $result = array(
             array(
                 "name" => "route.select",
@@ -43,7 +56,7 @@ class RouteController extends Controller
             )
         );
 
-        foreach ($search['result'] as $route) {
+        foreach ($searchResult as $route) {
             $result[] = array(
                 "name" => $route->getTitle(),
                 "url" => "tsCMS://".$route->getName()
